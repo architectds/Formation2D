@@ -1,0 +1,109 @@
+#########################################################
+# FILE       : PIHM_RT CHEM INPUT FILE EXAMPLE          #
+# DEVELOPPER : Chen Bao (baochen.d.s@gmail.com          #
+#########################################################
+
+#Explanation: Input file for chemical data
+#Usage      : 1) please use this file as an example to generate your own grids.
+#             2) use ! or # to comment.
+#             3) use consistent name with your chem file and chemical database file.
+#             4) suggested name pattern: <yourname>.chem
+#             5) comments and bug reports send to cub200@psu.edu or baochends@gmail.com
+#             6) thanks for using this simulator
+
+
+
+TITLE
+shp
+END
+
+RUNTIME
+# runtime variables
+tvd        true
+# whether to use tvd in calculation the advective concentration flux
+output     240
+# set output interval to # hours
+maximum_timestep    14400
+# set the maximum time step simulator can use, in the unit of minutes
+minimum_timestep    5
+# set the minimum time step simulator can use, in the unit of minutes
+overwrite_timestep  2880
+# overwrite the CFL guided time step selection by specification
+activity   1
+# enable the correction of activity using Debye-Huckel Equaion (1) or using no correction (0)
+act_coe_delay 0
+# define whether to delay the calculation of activity coefficients (0) for delay and (1) for no delay
+thermo     0
+# whether (1) or not (0) to couple the thermo modeling of pihm
+END
+
+GLOBAL
+t_species    5
+# total species including 1) primary speices, 2) primary minerals, 3) primary adsorptions. The number of species that are put into the condition blocks
+s_species    3
+# the number of species that are put into the secondary_species block.
+minerals     1
+# the number of species that are minerals in the condition blocks. 
+adsorption   0
+# the number of species that are surface complexation
+cation_exchange 0
+# the nubmer of species that are cation exchange
+mineral_kinetic  1
+# the number of mineral kinetic reactions
+aqueous_kinetic  0
+# the number of aqueous kinetic reactions
+diffusion    1.0E-20
+# fixed diffusion coefficient, in cm2/s
+dispersion   1.0E-20
+# fixed dispersion coefficient, in m
+cementation  1
+# cementation factor
+temperature  25
+# assumed temperature for thermo decouple mode
+END
+
+INITIAL_CONDITIONS
+initial 1-400
+inlet   0
+# Assign the conditions to blocks, supported separators are "," and "-". Named condition need be specified using Condition keyword
+# Assign condition to cell 0 if you wish to use the condition only for boundary layers (require definition in the grid file)
+END
+
+Condition initial
+# concentrations and names of species of condition X.
+# recommanded order: aqueous primary, adsorption, cation exchange, mineral
+Ca++    1E-4
+HCO3-   1E-4
+pH      4
+Calcite 0.1  -ssa 0.01
+!Dolomite 0.05 -ssa 0.01
+Cl-     1E-7
+# Specific surface area need be specified for solid phase.
+!Mg++    1E-4
+# it is recommended using # to comment and using ! to get rid of extra input
+END
+
+Condition inlet
+Ca++    0.50E-2
+HCO3-   1.00E-2
+pH      4
+Calcite 0.05  -ssa 0.01
+!Dolomite 0.05 -ssa 0.01
+Cl-     1E-4
+# Specific surface area need be specified for solid phase.
+!Mg++    1.00E-7
+END
+
+SECONDARY_SPECIES
+OH-
+CO2(aq)
+CO3--
+# Basis switching is not supported in this version of PIHM_RT
+END
+
+MINERALS
+# rate constant log10(rate, units mol/m^2/s)
+Calcite -label default 
+!Calcite -label h+
+!Dolomite -label default
+END

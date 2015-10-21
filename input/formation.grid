@@ -1,0 +1,44 @@
+#########################################################
+# FILE       : 2D_RT GRID INPUT FILE EXAMPLE            #
+# DEVELOPPER : Chen Bao (baochen.d.s@gmail.com          #
+#########################################################
+
+#Explanation: Input file for grid discretization
+#Limitation : only cartisian coordinates covered for now
+#             Unit conversion is not an option in current version
+#Usage      : 1) please use this file as an example to generate your own grids.
+#             2) use ! or # to comment.
+#             3) use consistent name with your chem file and chemical database file.
+#             4) suggested name pattern: <yourname>.grid
+#             5) comments and bug reports send to cub200@psu.edu or baochends@gmail.com
+#             6) thanks for using this simulator
+
+
+#Unit definition
+TIME  day
+SPACE meter
+
+#Grids along axis: <x>, <y>, <z>
+GRID	20	20	1
+#Length of elements along axis: <x>, <y>, <z>
+LENGTH  5	0.15	1
+#Constant flow velocity along axis: <x>, <y>, <z>
+VELOCITY	0.2	0.01	0
+#Start time and end time in days
+SPAN	0	365
+#Porosity
+POROSITY 0.200
+#Boundary conditions: <x/y/z_begin/end> <condition label> <boundary type> 
+#                     <x/y/z_begin/end> is program reserved words
+#                     <condition label> is the chemical condition of this boundary, need be specified in the chem input file
+#                     <boundary type>   is the type of boundary, options are <flux> <noflow>
+#                     default is noflow if begin or end blocks along certain axis is not defined
+#                     currently does not allow for heterogeneous boundary layer
+BOUNDARY
+x_begin inlet     flux
+x_end   initial   flux
+y_begin inlet     flux
+y_end   initial	  flux
+z_begin inlet	  noflow
+z_end   initial	  noflow
+END

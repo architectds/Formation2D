@@ -1,0 +1,112 @@
+TITLE
+This is a validation file for the 2D formation simulator.
+We validate by comparing the same 2D simulation on calcite dissolution.
+Grid size is 20*20
+Size is 100*3 m
+END
+
+RUNTIME
+time_units         days
+timestep_max       10
+timestep_init      1.E-10
+time_tolerance     0.001
+hindmarsh          false
+correction_max     10.0
+solver             bicg
+pc                 ilu
+pclevel            5
+master_variable    Tracer
+database           datacom.dbs
+gimrt              false
+screen_output      10
+END
+
+BOUNDARY_CONDITIONS
+x_begin   inlet          flux
+x_end     initial        flux
+y_begin   inlet          flux
+y_end     initial        flux
+END
+
+INITIAL_CONDITIONS
+initial     1-20 1-20
+END
+
+DISCRETIZATION
+distance_units   meters
+xzones           20  5.0
+yzones           20  0.15
+END 
+
+OUTPUT
+time_units           days
+time_series          cfbtc_3  20 20
+time_series_print    Cl-  HCO3-  pH  Ca++
+spatial_profile      1E-3 10 50 100 365
+END
+
+POROSITY
+!porosity_update  true
+fix_porosity  0.200
+END
+
+TRANSPORT
+distance_units           meters
+time_units               days
+fix_diffusion            8.64E-5
+Cementation_exponent     1.0
+dispersivity             0.1  1E-20
+END
+
+Condition inlet
+units          mol/kg
+temperature    25.0
+Ca++           0.50E-2
+HCO3-          1.00E-2
+pH             4
+Calcite        5.0E-2     ssa 0.01
+Cl-            1E-4
+Mg++           1E-7
+END
+
+Condition initial
+temperature       25.0
+Ca++   	       1E-4
+HCO3-          1E-4
+pH             4
+Calcite        1.0E-1   ssa 0.01
+Cl-            1E-7
+Mg++   	       1E-4
+END
+
+MINERALS
+Calcite -label default  -rate -12.19
+END
+
+PRIMARY_SPECIES
+H+
+Ca++
+Mg++
+HCO3-
+Cl-
+END
+
+SECONDARY_SPECIES
+OH-
+CO2(aq)
+CO3--
+END
+
+SURFACE_COMPLEXATION
+END
+
+GASES
+END
+
+FLOW
+distance_units      meters
+time_units          day
+constant_flow       0.2   0.01
+END
+
+ 
